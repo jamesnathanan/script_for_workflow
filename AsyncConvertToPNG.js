@@ -4,35 +4,18 @@ const Jimp = require('jimp');
 const { readdirSync, rename } = require('fs');
 const { resolve } = require('path');
 
-// Get path to image directory
-//const imageDirPath = resolve(__dirname, './MVRC_Aliens');
 
-// Get an array of the files inside the folder
-//const files = readdirSync(imageDirPath);
-
-// Loop through each file that was retrieved
-// files.forEach(file => {
-// 	let fileName = file
-// 	Jimp.read(`./MVRC_Aliens/${fileName}`, function(err, image) {
-// 		if(err) {
-// 			console.log(err)
-// 		} else {
-// 			image.write( `./png/${file}`)	
-// 		}
-	
-// 	})
-// 	//console.log(file)
-// 	});
 
 const writeFile = (file) => {
-  Jimp.read(`./MVRC_Aliens/${file}.jpg`, function (err, image) {
+  Jimp.read(`./MVRC_Aliens/${file}.jpg`,async function (err, image) {
   //If there is an error in reading the image, 
   //we will print the error in our terminal
   if (err) {
     console.log(err)
   } else {
-    image.write(`./test/${file}.png`)
+    const data = await image.write(`./test/${file}.png`)
     console.log(`image ${file} was created!`)
+    
     }
   
 })
@@ -41,7 +24,7 @@ const writeFile = (file) => {
 async function doWork(num) {
   try {
     const response = await writeFile(num)
-    console.log("Task was done !")
+    console.log(`File ${num} was read !`)
   } catch (err) {
     console.log(err)
   }
@@ -49,8 +32,11 @@ async function doWork(num) {
 }
 
 for (let i = 1; i < 11; i++) {
+    //doWork(i);
+    setTimeout(function timer() {
+    // console.log("hello world");
     doWork(i);
-
+  }, i * 3000);
 	}
 
 
